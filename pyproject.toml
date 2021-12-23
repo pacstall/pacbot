@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pacbot"
+version = "0.1.0"
+description = "Pacstall's discord bot"
+authors = ["Sourajyoti Basak <wiz28@protonmail.com>"]
+license = "GPL-3.0-or-later"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nextcord = "^2.0.0-alpha.4"
+python-dotenv = "^0.19.2"
+
+[tool.poetry.dev-dependencies]
+black = "^21.12b0"
+pre-commit = "^2.16.0"
+isort = "^5.10.1"
+pyupgrade = "^2.29.1"
+mypy = "^0.930"
+codespell = "^2.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
