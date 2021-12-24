@@ -23,38 +23,20 @@
 # You should have received a copy of the GNU General Public License
 # along with PacBot.  If not, see <https://www.gnu.org/licenses/>.
 
-import logging
-import os
-
-from dotenv import load_dotenv
 from nextcord.ext import commands  # type: ignore[attr-defined]
 
-load_dotenv()
 
-bot = commands.Bot(command_prefix="$")
+class Bot(commands.Cog):
+    """Various commands related to the bot"""
 
-# Setup logging
-logger = logging.getLogger("nextcord")
-logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename="nextcord.log", encoding="utf-8", mode="w")
-handler.setFormatter(
-    logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
-)
-logger.addHandler(handler)
+    def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
 
-
-@bot.event
-async def on_ready() -> None:
-    print(f"Successfully logged in as {bot.user}")
+    @commands.command()
+    async def ping(self, ctx: commands.Context) -> None:
+        """Prints bot's latency"""
+        await ctx.send(f"My ping is: `{int(self.bot.latency * 1000)}`ms")
 
 
-@bot.command()
-async def hello(ctx: commands.Context) -> None:
-    await ctx.send(f"Hello {ctx.author.mention}")
-
-
-for folder in os.listdir("commands"):
-    if os.path.exists(os.path.join("commands", folder, "cog.py")):
-        bot.load_extension(f"commands.{folder}.cog")
-
-bot.run(os.getenv("BOT_TOKEN"))
+def setup(bot: commands.Bot) -> None:
+    bot.add_cog(Bot(bot))
