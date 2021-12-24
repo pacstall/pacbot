@@ -17,6 +17,7 @@ isort = "^5.10.1"
 pyupgrade = "^2.29.1"
 mypy = "^0.930"
 codespell = "^2.1.0"
+vulture = "^2.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

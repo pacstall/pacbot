@@ -49,6 +49,14 @@ repos:
         entry: poetry run pyupgrade
         args: [--py36-plus]
         language: system
+      - id: vulture
+        name: Find unused Python code
+        description: Find unused Python code
+        entry: poetry run vulture
+        args: ["--ignore-decorators=@client.*"]
+        language: system
+        types: [python]
+        require_serial: true
       - id: mypy
         name: Type check python code
         description: Static type checker for Python
