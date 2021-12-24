@@ -36,7 +36,7 @@ class Info(commands.Cog):
     async def invite(self, ctx: commands.Context) -> None:
         """Prints Pacstall discord server's permanent invite link"""
         await ctx.send(
-            f"Pacstall discord server's invite link is: https://discord.gg/2wx9BRnXes"
+            "Pacstall discord server's invite link is: https://discord.gg/2wx9BRnXes"
         )
 
     @commands.command()
