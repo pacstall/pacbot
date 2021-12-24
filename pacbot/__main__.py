@@ -31,7 +31,7 @@ from nextcord.ext import commands
 
 load_dotenv()
 
-bot = commands.Bot(command_prefix="$")
+bot = commands.Bot(command_prefix=".")
 
 # Setup logging
 logger = logging.getLogger("nextcord")
