@@ -23,7 +23,10 @@
 # You should have received a copy of the GNU General Public License
 # along with PacBot.  If not, see <https://www.gnu.org/licenses/>.
 
+import time
+
 import nextcord.ext.commands as commands
+from nextcord import Embed
 
 
 class Bot(commands.Cog):
@@ -35,7 +38,21 @@ class Bot(commands.Cog):
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
         """Prints bot's latency"""
-        await ctx.send(f"My ping is: `{int(self.bot.latency * 1000)}`ms")
+        # Get the time before sending the temporary message
+        before_time = time.monotonic()
+        # Send temporary message
+        temp_ping_message = await ctx.send("Calculating...")
+        # Calculate responsiveness
+        responsiveness = (time.monotonic() - before_time) * 1000
+        # Edit the temporary message and send a ping embed
+        await temp_ping_message.edit(
+            content=None,
+            embed=Embed(
+                description=f"""Responsiveness :clock2:: `{round(responsiveness)}`ms
+
+                API Latency :heartbeat:: `{round(self.bot.latency * 1000)}`ms"""
+            ),
+        )
 
 
 def setup(bot: commands.Bot) -> None:
