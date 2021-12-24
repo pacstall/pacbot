@@ -23,6 +23,7 @@
 # You should have received a copy of the GNU General Public License
 # along with PacBot.  If not, see <https://www.gnu.org/licenses/>.
 
+import logging
 from os import getenv
 
 from dotenv import load_dotenv
@@ -32,6 +33,15 @@ load_dotenv()
 
 bot = commands.Bot(command_prefix="$")
 
+# Setup logging
+logger = logging.getLogger("nextcord")
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename="nextcord.log", encoding="utf-8", mode="w")
+handler.setFormatter(
+    logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
+)
+logger.addHandler(handler)
+
 
 @bot.event
 async def on_ready() -> None:
@@ -40,7 +50,7 @@ async def on_ready() -> None:
 
 @bot.command()
 async def hello(ctx: commands.Context) -> None:
-    await ctx.send("Hello to you!")
+    await ctx.send(f"Hello {ctx.author.mention}")
 
 
 bot.run(getenv("BOT_TOKEN"))
