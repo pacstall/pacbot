@@ -25,26 +25,22 @@
 
 from os import getenv
 
-import nextcord
 from dotenv import load_dotenv
+from nextcord.ext import commands  # type: ignore[attr-defined]
 
 load_dotenv()
 
-client = nextcord.Client()
+bot = commands.Bot(command_prefix="$")
 
 
-@client.event
-async def on_ready():
-    print(f"Successfully logged in as {client.user}")
+@bot.event
+async def on_ready() -> None:
+    print(f"Successfully logged in as {bot.user}")
 
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith("hello"):
-        await message.channel.send("Hello to you!")
+@bot.command()
+async def hello(ctx: commands.Context) -> None:
+    await ctx.send("Hello to you!")
 
 
-client.run(getenv("BOT_TOKEN"))
+bot.run(getenv("BOT_TOKEN"))

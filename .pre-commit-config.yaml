@@ -53,7 +53,7 @@ repos:
         name: Find unused Python code
         description: Find unused Python code
         entry: poetry run vulture
-        args: ["--ignore-decorators=@client.*"]
+        args: ["--ignore-decorators=@bot.*"]
         language: system
         types: [python]
         require_serial: true
@@ -63,5 +63,6 @@ repos:
         entry: poetry run mypy
         language: system
         types_or: [python, pyi]
-        args: ["--ignore-missing-imports", "--strict", "--pretty", "--show-error-context", "--show-column-numbers", "--show-error-codes"]
+        args: ["--ignore-missing-imports", "--allow-untyped-decorators", "--strict", "--pretty", "--show-error-context", "--show-column-numbers", "--show-error-codes"]
+        require_serial: true
 # vim:set ft=yaml ts=2 sw=2 et:
