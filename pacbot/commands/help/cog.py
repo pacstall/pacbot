@@ -53,9 +53,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
 
         if command_set:
             # show help about all commands in the set
-            for command in (
-                filtered := await self.filter_commands(command_set, sort=True)
-            ):
+            for command in await self.filter_commands(command_set, sort=True):
                 embed.add_field(
                     name=self.get_command_signature(command),
                     value=command.short_doc or "...",
