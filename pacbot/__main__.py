@@ -27,7 +27,7 @@ import logging
 import os
 
 from dotenv import load_dotenv
-from nextcord.ext import commands  # type: ignore[attr-defined]
+from nextcord.ext import commands
 
 load_dotenv()
 
@@ -46,11 +46,6 @@ logger.addHandler(handler)
 @bot.event
 async def on_ready() -> None:
     print(f"Successfully logged in as {bot.user}")
-
-
-@bot.command()
-async def hello(ctx: commands.Context) -> None:
-    await ctx.send(f"Hello {ctx.author.mention}")
 
 
 for folder in os.listdir("commands"):

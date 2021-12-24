@@ -26,17 +26,19 @@
 import nextcord.ext.commands as commands
 
 
-class Bot(commands.Cog):
-    """Various commands related to the bot"""
+class Info(commands.Cog):
+    """Various commands that display information"""
 
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
     @commands.command()
-    async def ping(self, ctx: commands.Context) -> None:
-        """Prints bot's latency"""
-        await ctx.send(f"My ping is: `{int(self.bot.latency * 1000)}`ms")
+    async def invite(self, ctx: commands.Context) -> None:
+        """Prints Pacstall discord server's permanent invite link"""
+        await ctx.send(
+            f"Pacstall discord server's invite link is: https://discord.gg/2wx9BRnXes"
+        )
 
 
 def setup(bot: commands.Bot) -> None:
-    bot.add_cog(Bot(bot))
+    bot.add_cog(Info(bot))

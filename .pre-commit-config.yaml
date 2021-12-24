@@ -63,6 +63,6 @@ repos:
         entry: poetry run mypy
         language: system
         types_or: [python, pyi]
-        args: ["--ignore-missing-imports", "--allow-subclassing-any", "--allow-untyped-decorators", "--strict", "--pretty", "--show-error-context", "--show-column-numbers", "--show-error-codes"]
+        args: ["--ignore-missing-imports", "--implicit-reexport", "--allow-subclassing-any", "--allow-untyped-decorators", "--strict", "--pretty", "--show-error-context", "--show-column-numbers", "--show-error-codes"]
         require_serial: true
 # vim:set ft=yaml ts=2 sw=2 et:

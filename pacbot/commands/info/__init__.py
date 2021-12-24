@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 #     ____             ____        __
 #    / __ \____ ______/ __ )____  / /_
 #   / /_/ / __ `/ ___/ __  / __ \/ __/
@@ -22,21 +20,3 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with PacBot.  If not, see <https://www.gnu.org/licenses/>.
-
-import nextcord.ext.commands as commands
-
-
-class Bot(commands.Cog):
-    """Various commands related to the bot"""
-
-    def __init__(self, bot: commands.Bot) -> None:
-        self.bot = bot
-
-    @commands.command()
-    async def ping(self, ctx: commands.Context) -> None:
-        """Prints bot's latency"""
-        await ctx.send(f"My ping is: `{int(self.bot.latency * 1000)}`ms")
-
-
-def setup(bot: commands.Bot) -> None:
-    bot.add_cog(Bot(bot))
