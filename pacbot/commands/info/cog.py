@@ -39,6 +39,11 @@ class Info(commands.Cog):
             f"Pacstall discord server's invite link is: https://discord.gg/2wx9BRnXes"
         )
 
+    @commands.command()
+    async def logo(self, ctx: commands.Context) -> None:
+        """Prints Pacstall logo link"""
+        await ctx.send("https://pacstall.dev/image/pacstall.svg")
+
 
 def setup(bot: commands.Bot) -> None:
     bot.add_cog(Info(bot))
