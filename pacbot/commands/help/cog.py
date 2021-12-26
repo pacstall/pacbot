@@ -95,7 +95,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
     async def send_command_help(self, command: commands.Command) -> None:
         await self.get_destination().send(
             embed=await self._help_embed(
-                title=command.qualified_name,
+                title=self.get_command_signature(command),
                 description=command.help,
                 command_set=command.commands
                 if isinstance(command, commands.Group)
