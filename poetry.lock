@@ -235,7 +235,7 @@ python-versions = "*"
 
 [[package]]
 name = "nextcord"
-version = "2.0.0a5"
+version = "2.0.0a6"
 description = "A Python wrapper for the Discord API forked from discord.py"
 category = "main"
 optional = false
@@ -408,7 +408,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "739e35ca999bc3e1cd66388c4e4715b063b02781cfda29d99282fb8fa423d725"
+content-hash = "21d4f706c0670740663d1b1abcd7d0fdd8b433a90724b3841759df6391478e34"
 
 [metadata.files]
 aiohttp = [
@@ -720,7 +720,7 @@ mypy-extensions = [
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
 nextcord = [
-    {file = "nextcord-2.0.0a5.tar.gz", hash = "sha256:3fe910deeba297acab7955c7b571b6ac3f495ee26c5f66148d1e62aaec9cb22e"},
+    {file = "nextcord-2.0.0a6.tar.gz", hash = "sha256:58f9b8cc721e2bab19c3d63fd58bfff36a5cdc59f3b2febf9c645b1237e3263e"},
 ]
 nodeenv = [
     {file = "nodeenv-1.6.0-py2.py3-none-any.whl", hash = "sha256:621e6b7076565ddcacd2db0294c0381e01fd28945ab36bcf00f41c5daf63bef7"},
