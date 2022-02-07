@@ -7,7 +7,7 @@ license = "GPL-3.0-or-later"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-nextcord = "^2.0.0a6"
+nextcord = "^2.0.0a7"
 python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
