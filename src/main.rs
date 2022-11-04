@@ -24,18 +24,15 @@ async fn on_ready(
 
     let builder = poise::builtins::create_application_commands(&framework.options().commands);
 
-    let commands = serenity::GuildId::set_application_commands(
-        &GuildId(pacstall_guild_id),
-        &ctx.http,
-        |commands| {
-            *commands = builder.clone();
+    GuildId::set_application_commands(&GuildId(pacstall_guild_id), &ctx.http, |commands| {
+        *commands = builder.clone();
 
-            commands
-        },
-    )
-    .await;
+        commands
+    })
+    .await
+    .expect("Error registering slash commands");
 
-    tracing::info!("Following slash commands registered:\n{commands:#?}");
+    tracing::info!("PacBot's online and ready to kick ass!");
 
     Ok(Data {})
 }
