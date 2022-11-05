@@ -3,8 +3,10 @@
 use std::env;
 
 use dotenvy::dotenv;
+use parking_lot::Mutex;
 use poise::serenity_prelude as serenity;
 use serenity::{GatewayIntents, GuildId};
+use sysinfo::{System, SystemExt};
 
 mod commands;
 
@@ -12,7 +14,9 @@ type Error = Box<dyn std::error::Error + Send + Sync>;
 type PoiseResult = Result<(), Error>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
-pub struct Data {}
+pub struct Data {
+    system_info: Mutex<System>,
+}
 
 async fn on_ready(
     ctx: &serenity::Context,
@@ -33,7 +37,9 @@ async fn on_ready(
 
     tracing::info!("PacBot's online and ready to kick ass!");
 
-    Ok(Data {})
+    Ok(Data {
+        system_info: Mutex::new(System::new()),
+    })
 }
 
 #[tokio::main]
