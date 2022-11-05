@@ -59,6 +59,7 @@ pub async fn packageinfo(
             fields.push(("Latest Version", latest_version, true));
         }
     }
+    fields.push(("Payload", format!("[Download]({})", response.url), true));
     if !response.runtime_dependencies.is_empty() {
         fields.push((
             "Runtime Dependencies",
@@ -189,7 +190,7 @@ pub async fn packageinfo(
     ctx.send(|builder| {
         builder.embed(|msg| {
             msg.title(response.pretty_name)
-                .url(response.url)
+                .url(format!("https://github.com/pacstall/pacstall-programs/blob/master/packages/{}/{}.pacscript", response.name, response.name))
                 .color(color)
                 .description(response.description)
                 .fields(fields)
