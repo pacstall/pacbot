@@ -13,7 +13,7 @@ tracing = "0.1.37"
 tracing-subscriber = "0.3.16"
 serde = "1.0.147"
 serde_json = "1.0.87"
-dotenv = "0.15.0"
+dotenvy = "0.15.6"
 
 [profile.release]
 lto = true

@@ -2,7 +2,7 @@
 
 use std::env;
 
-use dotenv::dotenv;
+use dotenvy::dotenv;
 use poise::serenity_prelude as serenity;
 use serenity::{GatewayIntents, GuildId};
 
