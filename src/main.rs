@@ -3,10 +3,10 @@
 use std::env;
 
 use dotenvy::dotenv;
-use parking_lot::Mutex;
 use poise::serenity_prelude as serenity;
 use serenity::{GatewayIntents, GuildId};
 use sysinfo::{System, SystemExt};
+use tokio::sync::Mutex;
 
 mod commands;
 
@@ -55,6 +55,7 @@ async fn main() {
             commands: vec![
                 commands::repository::packagelist(),
                 commands::repository::packageinfo(),
+                commands::info::serverstats(),
                 commands::info::about(),
                 commands::info::ping(),
                 commands::help(),

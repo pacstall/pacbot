@@ -7,7 +7,7 @@ use crate::{Context, PoiseResult};
 #[poise::command(slash_command, prefix_command, category = "Info")]
 pub async fn about(ctx: Context<'_>) -> PoiseResult {
     let ram_usage = {
-        let mut system_info = ctx.data().system_info.lock();
+        let mut system_info = ctx.data().system_info.lock().await;
         system_info.refresh_specifics(
             sysinfo::RefreshKind::new()
                 .with_cpu(sysinfo::CpuRefreshKind::new().with_cpu_usage())

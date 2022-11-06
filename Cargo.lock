@@ -125,6 +125,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "compound_duration"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "14c803d816c4ed6d0dadd5b54f7ef4f3761418fe802106b161d77476cc3c664c"
+
+[[package]]
 name = "core-foundation"
 version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -550,6 +556,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c4a1e36c821dbe04574f602848a19f742f4fb3c98d40449f11bcad18d6b17421"
 
 [[package]]
+name = "human_bytes"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "39b528196c838e8b3da8b665e08c30958a6f2ede91d79f2ffcd0d4664b9c64eb"
+
+[[package]]
 name = "hyper"
 version = "0.14.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -916,8 +928,9 @@ checksum = "b15813163c1d831bf4a13c3610c05c0d03b39feb07f7e09fa234dac9b15aaf39"
 name = "pacbot"
 version = "0.1.0"
 dependencies = [
+ "compound_duration",
  "dotenvy",
- "parking_lot",
+ "human_bytes",
  "poise",
  "reqwest",
  "serde",
