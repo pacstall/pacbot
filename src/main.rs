@@ -4,6 +4,7 @@ use std::env;
 
 use dotenvy::dotenv;
 use poise::serenity_prelude as serenity;
+use reqwest::Client;
 use serenity::{GatewayIntents, GuildId};
 use sysinfo::{System, SystemExt};
 use tokio::sync::Mutex;
@@ -15,6 +16,7 @@ type PoiseResult = Result<(), Error>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
 pub struct Data {
+    client: Client,
     system_info: Mutex<System>,
 }
 
@@ -38,6 +40,7 @@ async fn on_ready(
     tracing::info!("PacBot's online and ready to kick ass!");
 
     Ok(Data {
+        client: Client::new(),
         system_info: Mutex::new(System::new()),
     })
 }

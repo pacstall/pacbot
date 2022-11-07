@@ -10,34 +10,34 @@ pub async fn packageinfo(
     ctx: Context<'_>,
     #[description = "Name of the package"] name: String,
 ) -> PoiseResult {
-    let response: ResponseData =
-        match reqwest::get(format!("https://pacstall.dev/api/packages/{name}"))
-            .await?
-            .json()
-            .await
-        {
-            Ok(json) => json,
-            Err(error) => {
-                let reason = {
-                    if error.is_decode() {
-                        "Package not found!"
-                    } else {
-                        "Unknown Error"
-                    }
-                };
-                ctx.send(|builder| {
-                    builder.embed(|msg| {
-                        msg.color(Color::RED).title(reason).field(
-                            "Details",
-                            error.to_string(),
-                            true,
-                        )
-                    })
+    let client = &ctx.data().client;
+    let response: ResponseData = match client
+        .get(format!("https://pacstall.dev/api/packages/{name}"))
+        .send()
+        .await?
+        .json()
+        .await
+    {
+        Ok(json) => json,
+        Err(error) => {
+            let reason = {
+                if error.is_decode() {
+                    "Package not found!"
+                } else {
+                    "Unknown Error"
+                }
+            };
+            ctx.send(|builder| {
+                builder.embed(|msg| {
+                    msg.color(Color::RED)
+                        .title(reason)
+                        .field("Details", error.to_string(), true)
                 })
-                .await?;
-                return Ok(());
-            },
-        };
+            })
+            .await?;
+            return Ok(());
+        },
+    };
 
     let color = match response.update_status {
         -1 => Color::DARK_GREY,
@@ -174,7 +174,9 @@ pub async fn packageinfo(
 
         let author = author.name(name);
 
-        if reqwest::get(format!("https://github.com/{name}"))
+        if client
+            .get(format!("https://github.com/{name}"))
+            .send()
             .await?
             .status()
             .is_success()

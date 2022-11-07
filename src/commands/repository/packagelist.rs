@@ -9,7 +9,11 @@ use crate::{Context, PoiseResult};
 /// Get the package list
 #[poise::command(slash_command, prefix_command, category = "Repository")]
 pub async fn packagelist(ctx: Context<'_>) -> PoiseResult {
-    let response: PackagesResponse = reqwest::get("https://pacstall.dev/api/packages?page=0")
+    let response: PackagesResponse = ctx
+        .data()
+        .client
+        .get("https://pacstall.dev/api/packages?page=0")
+        .send()
         .await?
         .json()
         .await?;
