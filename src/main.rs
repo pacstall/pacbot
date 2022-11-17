@@ -3,7 +3,7 @@
 use std::env;
 
 use dotenvy::dotenv;
-use poise::serenity_prelude as serenity;
+use poise::serenity_prelude::{self as serenity, RoleId};
 use reqwest::Client;
 use serenity::{GatewayIntents, GuildId};
 use sysinfo::{System, SystemExt};
@@ -17,19 +17,22 @@ type Context<'a> = poise::Context<'a, Data, Error>;
 
 pub struct Data {
     client: Client,
+    guild_id: GuildId,
+    dev_roll_id: RoleId,
     system_info: Mutex<System>,
 }
 
+#[allow(clippy::unreadable_literal)]
 async fn on_ready(
     ctx: &serenity::Context,
     _ready: &serenity::Ready,
     framework: &poise::Framework<Data, Error>,
 ) -> Result<Data, Error> {
-    let pacstall_guild_id: u64 = env::var("PACSTALL_GUILDID")?.parse::<u64>()?;
+    let pacstall_guild_id = GuildId(839818021207801878);
 
     let builder = poise::builtins::create_application_commands(&framework.options().commands);
 
-    GuildId::set_application_commands(&GuildId(pacstall_guild_id), &ctx.http, |commands| {
+    GuildId::set_application_commands(&pacstall_guild_id, &ctx.http, |commands| {
         *commands = builder.clone();
 
         commands
@@ -40,7 +43,12 @@ async fn on_ready(
     tracing::info!("PacBot's online and ready to kick ass!");
 
     Ok(Data {
-        client: Client::new(),
+        client: Client::builder()
+            .user_agent("Pacstall-PacBot")
+            .build()
+            .unwrap(),
+        guild_id: pacstall_guild_id,
+        dev_roll_id: RoleId(839834742471655434),
         system_info: Mutex::new(System::new()),
     })
 }
@@ -58,6 +66,7 @@ async fn main() {
             commands: vec![
                 commands::repository::packagelist(),
                 commands::repository::packageinfo(),
+                commands::ppr::ppr(),
                 commands::info::serverstats(),
                 commands::info::about(),
                 commands::info::ping(),
