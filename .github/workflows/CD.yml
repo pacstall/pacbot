@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   build:
-    runs-in: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
