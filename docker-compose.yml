@@ -6,3 +6,6 @@ services:
     logging:
       options:
         max-size: 10m
+    - volumes:
+      - pacbot.pem:/pacbot/
+      - .env:/pacbot/
