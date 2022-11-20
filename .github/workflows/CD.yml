@@ -1,0 +1,32 @@
+name: Publish Production Image
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-in: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set ENV
+      run: |
+        echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
+
+    - name: Build Docker Images
+      run: |
+        docker build --network=host -t pacbot .
+        docker tag pacbot ghcr.io/pacstall/pacbot:latest
+    - name: Push Images
+      run: |
+        docker push "ghcr.io/pacstall/pacbot:latest"
