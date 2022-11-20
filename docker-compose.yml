@@ -1,11 +1,13 @@
-version: "3.7"
+version: '3.2'
 
 services:
+
   pacbot:
     image: ghcr.io/pacstall/pacbot:latest
     logging:
       options:
-        max-size: 10m
-    - volumes:
+        max-file: "5"
+        max-size: "10m"
+    volumes:
       - pacbot.pem:/pacbot/
       - .env:/pacbot/
