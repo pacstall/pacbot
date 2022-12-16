@@ -24,10 +24,7 @@ pub async fn about(ctx: Context<'_>) -> PoiseResult {
             msg.title("Bot Information")
                 .thumbnail(ctx.discord().cache.current_user().avatar_url().unwrap())
                 .description("A bot to assist Pacstall Devs, written in Rust! :crab:")
-                .fields([
-                    ("Version", env!("CARGO_PKG_VERSION"), true),
-                    ("RAM Usage", &format!("{ram_usage}MB of RAM"), true),
-                ])
+                .fields([("RAM Usage", &format!("{ram_usage}MB of RAM"), true)])
                 .color(Color::GOLD)
         })
     })

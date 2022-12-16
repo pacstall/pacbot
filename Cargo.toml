@@ -3,6 +3,8 @@ name = "pacbot"
 version = "0.1.0"
 edition = "2021"
 
+build = "src/build.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -20,6 +22,10 @@ compound_duration = "1.2.0"
 jwt-simple = "0.11.2"
 rand = "0.8.5"
 chrono = { version = "0.4.23", default-features = false, features = ["clock"] }
+built = { version = "0.5.2", features = ["chrono"] }
 
 [profile.release]
 lto = true
+
+[build-dependencies]
+built = { version = "0.5.2", features = ["git2", "chrono"] }

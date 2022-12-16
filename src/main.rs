@@ -70,6 +70,7 @@ async fn main() {
                 commands::info::serverstats(),
                 commands::info::about(),
                 commands::info::ping(),
+                commands::info::version(),
                 commands::help(),
             ],
             prefix_options: poise::PrefixFrameworkOptions {
