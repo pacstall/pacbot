@@ -7,11 +7,6 @@
 
 ---
 
-
-### Features
-* `/packagelist` to get a list of available packages
-* `/packageinfo <pkg>` to get quick information on a certain package
-
 #### How to deploy
 Create a file called `.env`, and fill in the following information:
 ```bash
