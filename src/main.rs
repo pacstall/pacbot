@@ -81,7 +81,7 @@ async fn main() {
         })
         .token(env::var("DISCORD_TOKEN").unwrap())
         .intents(GatewayIntents::non_privileged() | GatewayIntents::MESSAGE_CONTENT)
-        .user_data_setup(|ctx, ready, framework| Box::pin(on_ready(ctx, ready, framework)));
+        .setup(|ctx, ready, framework| Box::pin(on_ready(ctx, ready, framework)));
 
     framework.run().await.unwrap();
 }

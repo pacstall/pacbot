@@ -52,7 +52,7 @@ async fn check_is_dev(ctx: Context<'_>) -> Result<bool, Error> {
         if ctx
             .author()
             .has_role(
-                &ctx.discord().http,
+                &ctx.serenity_context().http,
                 ctx.data().guild_id,
                 ctx.data().dev_roll_id,
             )

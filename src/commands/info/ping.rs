@@ -14,7 +14,7 @@ pub async fn ping(ctx: Context<'_>) -> PoiseResult {
     let runners = manager.runners.lock().await;
 
     let runner = runners
-        .get(&ShardId(ctx.discord().shard_id))
+        .get(&ShardId(ctx.serenity_context().shard_id))
         .ok_or("No shard found")?;
 
     ping_msg

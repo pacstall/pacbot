@@ -64,7 +64,7 @@ pub async fn packagelist(ctx: Context<'_>) -> PoiseResult {
     while let Some(interaction) = reply
         .message()
         .await?
-        .await_component_interactions(&ctx.discord().shard)
+        .await_component_interactions(&ctx.serenity_context().shard)
         .timeout(Duration::from_secs(60 * 5))
         .author_id(ctx.author().id)
         .build()
@@ -74,7 +74,7 @@ pub async fn packagelist(ctx: Context<'_>) -> PoiseResult {
         match &*interaction.data.custom_id {
             "next" => {
                 interaction
-                    .create_interaction_response(&ctx.discord().http, |resp| {
+                    .create_interaction_response(&ctx.serenity_context().http, |resp| {
                         resp.kind(InteractionResponseType::UpdateMessage)
                             .interaction_response_data(|data| {
                                 data.embed(|msg| msg.description("test"))

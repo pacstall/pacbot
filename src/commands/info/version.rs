@@ -12,7 +12,13 @@ pub async fn version(ctx: Context<'_>) -> PoiseResult {
     ctx.send(|builder| {
         builder.embed(|msg| {
             msg.title("Version Information")
-                .thumbnail(ctx.discord().cache.current_user().avatar_url().unwrap())
+                .thumbnail(
+                    ctx.serenity_context()
+                        .cache
+                        .current_user()
+                        .avatar_url()
+                        .unwrap(),
+                )
                 .fields([
                     (
                         "Bot Version",
