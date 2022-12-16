@@ -1,14 +1,25 @@
 use poise::serenity_prelude::*;
 
 use super::*;
+use crate::commands::utility::fetch_packagelist;
 use crate::{Context, PoiseResult};
+
+async fn packagelist_autocomplete(ctx: Context<'_>, partial: &str) -> Vec<String> {
+    fetch_packagelist(ctx)
+        .await
+        .into_iter()
+        .filter(|s| s.starts_with(partial))
+        .collect()
+}
 
 /// Get info about a package
 #[allow(clippy::too_many_lines)]
 #[poise::command(slash_command, prefix_command, category = "Repository")]
 pub async fn packageinfo(
     ctx: Context<'_>,
-    #[description = "Name of the package"] name: String,
+    #[description = "Name of the package"]
+    #[autocomplete = "packagelist_autocomplete"]
+    name: String,
 ) -> PoiseResult {
     let client = &ctx.data().client;
     let response: ResponseData = match client

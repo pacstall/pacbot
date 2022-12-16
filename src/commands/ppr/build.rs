@@ -5,6 +5,7 @@ use serde_json::json;
 use tokio::fs;
 use tokio::time::sleep;
 
+use crate::commands::utility::fetch_packagelist;
 use crate::{Context, Error, PoiseResult};
 
 #[derive(Deserialize, Debug)]
@@ -38,25 +39,8 @@ struct GitHubTokenResponse {
     token: String,
 }
 
-async fn get_packagelist(ctx: Context<'_>) -> Vec<String> {
-    ctx.data()
-        .client
-        .get("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packagelist")
-        .send()
-        .await
-        .expect("Error when sending the request to fetch packagelist")
-        .error_for_status()
-        .expect("Status error when requesting the packagelist")
-        .text()
-        .await
-        .expect("Error when getting the response text of the packagelist request")
-        .lines()
-        .map(ToString::to_string)
-        .collect::<Vec<_>>()
-}
-
-async fn packagelist(ctx: Context<'_>, partial: &str) -> Vec<String> {
-    get_packagelist(ctx)
+async fn packagelist_autocomplete(ctx: Context<'_>, partial: &str) -> Vec<String> {
+    fetch_packagelist(ctx)
         .await
         .into_iter()
         .filter(|s| s.starts_with(partial) && !s.ends_with("-deb"))
@@ -97,10 +81,15 @@ async fn check_is_dev(ctx: Context<'_>) -> Result<bool, Error> {
 pub async fn build(
     ctx: Context<'_>,
     #[description = "Name of the package you want to build"]
-    #[autocomplete = "packagelist"]
+    #[autocomplete = "packagelist_autocomplete"]
     name: String,
 ) -> PoiseResult {
-    if !get_packagelist(ctx).await.contains(&name) {
+    if !fetch_packagelist(ctx)
+        .await
+        .into_iter()
+        .filter(|s| !s.ends_with("-deb"))
+        .any(|s| s == name)
+    {
         ctx.say(format!("`{name}` does not exist!")).await?;
         return Ok(());
     }
