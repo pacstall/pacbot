@@ -20,9 +20,14 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
 
+    - name: Install DockerSlim
+      run: |
+        curl -sL https://raw.githubusercontent.com/docker-slim/docker-slim/master/scripts/install-dockerslim.sh | bash -
+
     - name: Build Docker Images
       run: |
         docker build --network=host -t pacbot .
+        yes | docker-slim build --target pacbot --tag pacbot --http-probe=false
         docker tag pacbot ghcr.io/pacstall/pacbot:latest
     - name: Push Images
       run: |
