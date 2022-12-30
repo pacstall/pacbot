@@ -94,9 +94,11 @@ async fn main() {
             tokio::spawn(async move {
                 loop {
                     timer.tick().await;
+                    tracing::info!("Starting to manage issues");
                     manage_issues_for_outdated_pacscripts(&github_client)
                         .await
                         .unwrap();
+                    tracing::info!("Finished managing issues");
                 }
             });
             Box::pin(on_ready(ctx, client, ready, framework))
