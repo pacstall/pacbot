@@ -4,41 +4,43 @@ pub mod packageinfo;
 pub mod packagelist;
 
 #[derive(Deserialize, Debug)]
-struct ResponseData {
-    name: String,
+pub struct ResponseData {
+    pub name: String,
     #[serde(alias = "prettyName")]
-    pretty_name: String,
-    version: String,
+    pub pretty_name: String,
+    pub version: String,
     #[serde(alias = "latestVersion")]
-    latest_version: Option<String>,
+    pub latest_version: Option<String>,
     #[serde(alias = "packageName")]
-    package_name: String,
-    maintainer: String,
-    description: String,
-    url: String,
+    pub package_name: String,
+    pub maintainer: String,
+    pub description: String,
+    pub url: String,
     #[serde(alias = "runtimeDependencies")]
-    runtime_dependencies: Vec<String>,
+    pub runtime_dependencies: Vec<String>,
     #[serde(alias = "buildDependencies")]
-    build_dependencies: Vec<String>,
+    pub build_dependencies: Vec<String>,
     #[serde(alias = "optionalDependencies")]
-    optional_dependencies: Vec<String>,
-    breaks: Vec<String>,
-    gives: String,
-    replace: Vec<String>,
-    ppa: Vec<String>,
+    pub optional_dependencies: Vec<String>,
+    pub breaks: Vec<String>,
+    pub gives: String,
+    pub replace: Vec<String>,
+    pub ppa: Vec<String>,
     #[serde(alias = "pacstallDependencies")]
-    pacstall_dependencies: Vec<String>,
-    repology: Vec<String>,
+    pub pacstall_dependencies: Vec<String>,
+    pub repology: Vec<String>,
     #[serde(alias = "requiredBy")]
-    required_by: Vec<String>,
+    pub required_by: Vec<String>,
     #[serde(alias = "updateStatus")]
-    update_status: i8,
+    pub update_status: i8,
 }
 
 #[derive(Deserialize, Debug)]
-struct PackagesResponse {
-    total: u32,
-    data: Vec<ResponseData>,
+pub struct PackagesResponse {
+    pub total: u32,
+    #[serde(alias = "lastPage")]
+    pub last_page: u32,
+    pub data: Vec<ResponseData>,
 }
 
 pub use packageinfo::packageinfo;

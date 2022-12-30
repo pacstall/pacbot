@@ -1,11 +1,10 @@
-use jwt_simple::prelude::{Claims, Duration, RS256KeyPair, RSAKeyPairLike};
 use rand::Rng;
 use serde::Deserialize;
 use serde_json::json;
-use tokio::fs;
 use tokio::time::sleep;
 
 use crate::commands::utility::fetch_packagelist;
+use crate::github::utils::get_github_token;
 use crate::{Context, Error, PoiseResult};
 
 #[derive(Deserialize, Debug)]
@@ -32,11 +31,6 @@ struct GitHubWorkflowRunsResponse {
 #[derive(Deserialize, Debug)]
 struct GitHubActionsListResponse {
     workflow_runs: Vec<GitHubWorkflowRunsResponse>,
-}
-
-#[derive(Deserialize, Debug)]
-struct GitHubTokenResponse {
-    token: String,
 }
 
 async fn packagelist_autocomplete(ctx: Context<'_>, partial: &str) -> Vec<String> {
@@ -100,21 +94,8 @@ pub async fn build(
         ))
         .await?;
 
-    let key = RS256KeyPair::from_pem(&fs::read_to_string("pacbot.pem").await?)?;
-    let claims = Claims::create(Duration::from_mins(10)).with_issuer("258575");
-    let jwt_token = key.sign(claims)?;
-
     let client = &ctx.data().client;
-
-    let github_token = client
-        .post("https://api.github.com/app/installations/30964287/access_tokens")
-        .header("accept", "application/vnd.github+json")
-        .bearer_auth(&jwt_token)
-        .send()
-        .await?
-        .json::<GitHubTokenResponse>()
-        .await?
-        .token;
+    let github_token = get_github_token(client).await?;
 
     let run_identifier = rand::thread_rng().gen::<u64>().to_string();
 
