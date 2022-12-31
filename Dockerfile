@@ -1,10 +1,13 @@
-FROM rust:slim-bullseye
-
-RUN apt-get update && apt-get install libssl-dev pkg-config -y
+FROM rust as build
 
 WORKDIR /pacbot
 COPY . /pacbot
 
 RUN cargo install --path /pacbot && cargo clean
 
-ENTRYPOINT ["/usr/local/cargo/bin/pacbot"]
+FROM gcr.io/distroless/cc
+
+WORKDIR /pacbot
+COPY --from=build /usr/local/cargo/bin/pacbot /pacbot/
+
+ENTRYPOINT ["/pacbot/pacbot"]
