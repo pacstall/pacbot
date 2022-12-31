@@ -26,6 +26,8 @@ built = { version = "0.5.2", features = ["chrono"] }
 
 [profile.release]
 lto = true
+strip = true
+panic = "abort"
 
 [build-dependencies]
 built = { version = "0.5.2", features = ["git2", "chrono"] }
