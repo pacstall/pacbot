@@ -137,17 +137,18 @@ pub async fn manage_issues_for_outdated_pacscripts(client: &Client) -> PoiseResu
                         let maintainer = package.maintainer;
                         let maintainer_split: Vec<&str> = maintainer.split('<').collect();
 
-                        let maintainer_name = if maintainer_split.len() != 2 {
-                            // There's no email address present, so the whole string is the
-                            // maintainer's name
-                            Some(maintainer.trim().to_lowercase())
-                        } else if !maintainer_split[0].is_empty() {
-                            // Use the first element from the split, i.e, the maintainer's name
-                            Some(maintainer_split[0].trim().to_lowercase())
-                        } else {
-                            // There's no maintainer
-                            None
-                        };
+                        let maintainer_name =
+                            if maintainer_split.len() != 2 && !maintainer.is_empty() {
+                                // There's no email address present, so the whole string is the
+                                // maintainer's name
+                                Some(maintainer.trim().to_lowercase())
+                            } else if !maintainer_split[0].is_empty() {
+                                // Use the first element from the split, i.e, the maintainer's name
+                                Some(maintainer_split[0].trim().to_lowercase())
+                            } else {
+                                // There's no maintainer
+                                None
+                            };
 
                         let pretty_name = package.pretty_name;
                         let label = match package.update_status {
