@@ -3,7 +3,7 @@ FROM rust as build
 WORKDIR /pacbot
 COPY . /pacbot
 
-RUN cargo install --path /pacbot && cargo clean
+RUN cargo install --locked --path /pacbot && cargo clean
 
 FROM gcr.io/distroless/cc
 
