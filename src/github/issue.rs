@@ -178,7 +178,7 @@ pub async fn manage_issues_for_outdated_pacscripts(client: &Client) -> PoiseResu
                                     |Maintainer|`{maintainer}`|
 
                                     > **Warning**
-                                    > This should not be closed manually, or by using the *fixes/closes* keywords in your PR. This bot will take care of that for you."
+                                    > This should not be closed manually, or by using the *fixes*/*closes* keywords in your PR. This bot will take care of that for you."
                                 );
 
                                 // Remove the extra padding
@@ -225,7 +225,7 @@ pub async fn manage_issues_for_outdated_pacscripts(client: &Client) -> PoiseResu
                                     |Latest Version|`{latest_version}`|
 
                                     > **Warning**
-                                    > This should not be closed manually, or by using the *fixes/closes* keywords in your PR. This bot will take care of that for you.")
+                                    > This should not be closed manually, or by using the *fixes*/*closes* keywords in your PR. This bot will take care of that for you.")
                                     .lines()
                                     .map(|line| line.trim_matches(|c| c == ' ').to_owned() + "\n")
                                     .collect::<String>(),
