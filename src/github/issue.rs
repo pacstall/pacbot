@@ -11,6 +11,7 @@ use crate::PoiseResult;
 enum StateReason {
     Completed,
     NotPlanned,
+    Reopened,
 }
 
 #[derive(Deserialize, Debug)]
@@ -27,22 +28,6 @@ pub async fn manage_issues_for_outdated_pacscripts(client: &Client) -> PoiseResu
 
     // Get list of open issues created by the bot
     tracing::trace!("Getting list of open issues");
-
-    // let issues = client
-    //     .get("https://api.github.com/repos/pacstall/pacstall-programs/issues")
-    //     .query(&[
-    //         ("per_page", "100"),
-    //         ("state", "open"),
-    //         ("creator", "app/pacstall-pacbot"),
-    //     ])
-    //     .send()
-    //     .await?
-    //     .text()
-    //     .awai
-    //
-    // let issues = issues.headers();
-    //
-    // tracing::debug!("{issues:?}");
 
     let github_open_issues: Vec<GitHubIssue> = client
         .get("https://api.github.com/repos/pacstall/pacstall-programs/issues")
