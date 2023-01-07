@@ -18,6 +18,7 @@ enum StateReason {
 struct GitHubIssue {
     number: u32,
     title: String,
+    html_url: String,
     state_reason: Option<StateReason>,
 }
 
@@ -146,7 +147,7 @@ pub async fn manage_issues_for_outdated_pacscripts(client: &Client) -> PoiseResu
                         tracing::info!("Creating issue for {title}");
 
                         // Create the issue
-                        if client
+                        if let Ok(response) = client
                         .post("https://api.github.com/repos/pacstall/pacstall-programs/issues")
                         .header("accept", "application/vnd.github+json")
                         .header("Authorization", format!("token {github_token}"))
@@ -223,13 +224,67 @@ pub async fn manage_issues_for_outdated_pacscripts(client: &Client) -> PoiseResu
                         .send()
                         .await?
                         .error_for_status()
-                        .is_err()
-                    {
-                        tracing::warn!(
-                            "{name}'s maintainer is not in our organization, so assigning them \
-                             failed"
-                        );
-                    }
+                        {
+                            let response: GitHubIssue = response.json().await?;
+
+                            // Close all the older issues associated with that pacscript.
+                            for issue in github_open_issues.iter().filter(|issue| {
+                                // Find the first ` character
+                                let start_index = issue.title.find('`').unwrap();
+
+                                // Find the index of the second ` character, starting from the index of the
+                                // first ` character
+                                let end_index = issue.title[start_index + 1..].find('`').unwrap();
+
+                                // Extract the string between the two ` characters, this is the package
+                                // name of the issue
+                                let substring = &issue.title[(start_index + 1)..=(start_index + end_index)];
+
+                                substring == name && issue.number != response.number
+                            }) {
+                                // Comment on the issue
+                                if client.post(format!("https://api.github.com/repos/pacstall/pacstall-programs/issues/{}/comments", issue.number))
+                                .header("accept", "application/vnd.github+json")
+                                .header("Authorization", format!("token {github_token}"))
+                                .body(json!({"body": format!("Superseded by {}", response.html_url)}).to_string())
+                                .send()
+                                .await?
+                                .error_for_status()
+                                .is_ok() {
+                                    tracing::debug!("Commented on #{} about the new issue #{}", issue.number, response.number);
+                                } else {
+                                    tracing::error!("Unable to comment on #{} about the new issue #{}", issue.number, response.number);
+                                }
+
+                                // Close the issue
+                                if client
+                                    .post(format!(
+                                        "https://api.github.com/repos/pacstall/pacstall-programs/issues/{}",
+                                        issue.number
+                                    ))
+                                    .header("accept", "application/vnd.github+json")
+                                    .header("Authorization", format!("token {github_token}"))
+                                    .body(json!({"state": "close"}).to_string())
+                                    .send()
+                                    .await?
+                                    .error_for_status()
+                                    .is_ok()
+                                {
+                                    tracing::info!(
+                                        "Closed issue number: {} as it's superseded by {}",
+                                        issue.number,
+                                        response.number,
+                                        );
+                                } else {
+                                    tracing::error!("Failed to close issue number: {}", issue.number);
+                                }
+                            }
+                        } else {
+                            tracing::warn!(
+                                "{name}'s maintainer is not in our organization, so assigning them \
+                                failed"
+                            );
+                        }
                     }
                 }
 
