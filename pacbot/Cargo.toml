@@ -1,0 +1,13 @@
+[package]
+name = "pacbot"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio.workspace = true
+libpacbot.workspace = true
+tracing.workspace = true
+pacbot_github.workspace = true
+pacbot_discord.workspace = true
+flume.workspace = true
+tracing-subscriber = "0.3.17"

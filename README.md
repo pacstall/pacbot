@@ -9,9 +9,9 @@
 
 #### How to deploy
 Create a file called `.env`, and fill in the following information:
+
 ```bash
 DISCORD_TOKEN=$my_discord_token
-PACSTALL_GUILDID=$my_guild_id
 ```
 
 Then run `docker-compose up -d` to build the container.

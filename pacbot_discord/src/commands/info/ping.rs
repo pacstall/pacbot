@@ -1,10 +1,10 @@
+use libpacbot::PacResult;
 use poise::serenity_prelude::*;
 
-use crate::{Context, PoiseResult};
-
+use crate::Context;
 /// Get the bot's ping information
 #[poise::command(slash_command, prefix_command, category = "Info")]
-pub async fn ping(ctx: Context<'_>) -> PoiseResult {
+pub async fn ping(ctx: Context<'_>) -> PacResult {
     let before = std::time::SystemTime::now();
     let ping_msg = ctx.say("Calculating...").await?;
 

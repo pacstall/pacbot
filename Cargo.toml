@@ -1,33 +1,21 @@
-[package]
-name = "pacbot"
-version = "0.1.0"
-edition = "2021"
-
-build = "src/build.rs"
+[workspace]
+members = ["pacbot", "pacbot_discord", "pacbot_github", "libpacbot"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
-reqwest = { version = "0.11.12", features = ["json", "rustls-tls"] }
-poise = "0.5.2"
-tokio = { version = "1.23.1", features = ["macros", "rt-multi-thread"] }
+[workspace.dependencies]
+libpacbot = { path = "libpacbot" }
+pacbot_github = { path = "pacbot_github" }
+pacbot_discord = { path = "pacbot_discord" }
+reqwest = { version = "0.11.16", features = ["json", "rustls-tls"] }
+poise = "0.5.3"
+tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
-tracing-subscriber = "0.3.16"
-serde = "1.0.152"
-serde_json = "1.0.91"
-dotenvy = "0.15.6"
-sysinfo = "0.27.2"
-human_bytes = "0.4.1"
-compound_duration = "1.2.0"
-jwt-simple = "0.11.2"
-rand = "0.8.5"
-chrono = { version = "0.4.23", default-features = false, features = ["clock"] }
-built = { version = "0.5.2", features = ["chrono"] }
+serde = "1.0.160"
+serde_json = "1.0.96"
+flume = "0.10.14"
 
 [profile.release]
 lto = true
 strip = true
 panic = "abort"
-
-[build-dependencies]
-built = { version = "0.5.2", features = ["git2", "chrono"] }

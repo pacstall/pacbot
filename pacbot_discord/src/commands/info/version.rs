@@ -2,13 +2,14 @@ pub mod built_info {
     include!(concat!(env!("OUT_DIR"), "/built.rs"));
 }
 
+use libpacbot::PacResult;
 use poise::serenity_prelude::*;
 
-use crate::{Context, PoiseResult};
+use crate::Context;
 
 /// Shows a detailed summary of the bot's version
 #[poise::command(slash_command, prefix_command, category = "Info")]
-pub async fn version(ctx: Context<'_>) -> PoiseResult {
+pub async fn version(ctx: Context<'_>) -> PacResult {
     ctx.send(|builder| {
         builder.embed(|msg| {
             msg.title("Version Information")

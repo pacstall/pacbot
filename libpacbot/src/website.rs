@@ -1,8 +1,5 @@
 use serde::Deserialize;
 
-pub mod packageinfo;
-pub mod packagelist;
-
 #[derive(Deserialize, Debug)]
 pub struct ResponseData {
     pub name: String,
@@ -42,6 +39,3 @@ pub struct PackagesResponse {
     pub last_page: u32,
     pub data: Vec<ResponseData>,
 }
-
-pub use packageinfo::packageinfo;
-pub use packagelist::packagelist;

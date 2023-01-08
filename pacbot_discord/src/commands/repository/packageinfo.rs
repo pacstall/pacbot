@@ -1,8 +1,9 @@
+use libpacbot::website::ResponseData;
+use libpacbot::PacResult;
 use poise::serenity_prelude::*;
 
-use super::*;
 use crate::commands::utility::fetch_packagelist;
-use crate::{Context, PoiseResult};
+use crate::Context;
 
 async fn packagelist_autocomplete(ctx: Context<'_>, partial: &str) -> Vec<String> {
     fetch_packagelist(ctx)
@@ -20,7 +21,7 @@ pub async fn packageinfo(
     #[description = "Name of the package"]
     #[autocomplete = "packagelist_autocomplete"]
     name: String,
-) -> PoiseResult {
+) -> PacResult {
     let client = &ctx.data().client;
     let response: ResponseData = match client
         .get(format!("https://pacstall.dev/api/packages/{name}"))

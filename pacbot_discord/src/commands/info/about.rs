@@ -1,11 +1,12 @@
+use libpacbot::PacResult;
 use poise::serenity_prelude::*;
 use sysinfo::{ProcessExt, SystemExt};
 
-use crate::{Context, PoiseResult};
+use crate::Context;
 
 /// Shows information about this bot
 #[poise::command(slash_command, prefix_command, category = "Info")]
-pub async fn about(ctx: Context<'_>) -> PoiseResult {
+pub async fn about(ctx: Context<'_>) -> PacResult {
     let ram_usage = {
         let mut system_info = ctx.data().system_info.lock().await;
         system_info.refresh_specifics(

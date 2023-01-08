@@ -1,33 +1,30 @@
 #![allow(clippy::wildcard_imports)]
+#![allow(clippy::missing_panics_doc)]
 
 use std::env;
 use std::time::Duration;
 
 use dotenvy::dotenv;
-use github::issue::manage_issues_for_outdated_pacscripts;
-use poise::serenity_prelude::{self as serenity, RoleId};
+use flume::{Receiver, Sender};
+use libpacbot::{messages, Error};
+use poise::serenity_prelude::{self as serenity, Activity};
 use reqwest::Client;
 use serenity::{GatewayIntents, GuildId};
 use sysinfo::{System, SystemExt};
 use tokio::sync::Mutex;
-use tokio::time::interval;
 
 mod commands;
-mod github;
 
-type Error = Box<dyn std::error::Error + Send + Sync>;
-type PoiseResult = Result<(), Error>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
 pub struct Data {
     client: Client,
-    guild_id: GuildId,
-    dev_roll_id: RoleId,
     system_info: Mutex<System>,
 }
 
 #[allow(clippy::unreadable_literal)]
 async fn on_ready(
+    rx: Receiver<messages::Discord>,
     ctx: &serenity::Context,
     client: Client,
     _ready: &serenity::Ready,
@@ -47,28 +44,40 @@ async fn on_ready(
 
     tracing::info!("PacBot's online and ready to kick ass!");
 
+    // Trigger status update cycle
+    let status_rx = rx.clone();
+    let status_ctx = ctx.clone();
+    tokio::spawn(async move {
+        loop {
+            if let Ok(messages::Discord::StatusUpdate(status)) = status_rx.try_recv() {
+                match status {
+                    Some(status) => status_ctx.set_activity(Activity::watching(status)).await,
+                    None => {
+                        status_ctx
+                            .set_activity(Activity::watching("for new pacscripts"))
+                            .await;
+                    },
+                }
+            };
+
+            tokio::time::sleep(Duration::from_secs(1)).await;
+        }
+    });
+
     Ok(Data {
         client,
-        guild_id: pacstall_guild_id,
-        dev_roll_id: RoleId(839834742471655434),
         system_info: Mutex::new(System::new()),
     })
 }
 
-#[tokio::main]
-async fn main() {
+pub async fn run(_tx: Sender<()>, rx: Receiver<messages::Discord>) {
     dotenv().expect("Unable to load .env!");
-
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
-        .init();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
             commands: vec![
                 commands::repository::packagelist(),
                 commands::repository::packageinfo(),
-                commands::ppr::ppr(),
                 commands::info::serverstats(),
                 commands::info::about(),
                 commands::info::ping(),
@@ -89,19 +98,7 @@ async fn main() {
                 .build()
                 .unwrap();
 
-            let github_client = client.clone();
-            let mut timer = interval(Duration::from_secs(900)); // 900 seconds = 15 minutes
-            tokio::spawn(async move {
-                loop {
-                    timer.tick().await;
-                    tracing::info!("Starting to manage issues");
-                    manage_issues_for_outdated_pacscripts(&github_client)
-                        .await
-                        .unwrap();
-                    tracing::info!("Finished managing issues");
-                }
-            });
-            Box::pin(on_ready(ctx, client, ready, framework))
+            Box::pin(on_ready(rx, ctx, client, ready, framework))
         });
 
     framework.run().await.unwrap();

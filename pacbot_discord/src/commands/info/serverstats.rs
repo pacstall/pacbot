@@ -1,13 +1,14 @@
 use human_bytes::human_bytes;
+use libpacbot::PacResult;
 use poise::serenity_prelude::*;
 use sysinfo::{CpuExt, DiskExt, NetworkExt, NetworksExt, SystemExt};
 
-use crate::{Context, PoiseResult};
+use crate::Context;
 
 /// Shows information the Pacstall server
 #[allow(clippy::cast_precision_loss)]
 #[poise::command(slash_command, prefix_command, category = "Info")]
-pub async fn serverstats(ctx: Context<'_>) -> PoiseResult {
+pub async fn serverstats(ctx: Context<'_>) -> PacResult {
     let mut system_info = ctx.data().system_info.lock().await;
     system_info.refresh_networks_list();
     system_info.refresh_disks_list();

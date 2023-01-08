@@ -46,6 +46,6 @@ fmt +ARGS="":
     @echo Codebase formatted successfully!
 
 # Spellcheck the codebase
-spellcheck +ARGS="--skip target*":
+spellcheck +ARGS="--skip 'target*,*graphql*,*snap*'":
     @codespell --write-changes --builtin clear,rare,informal,code -I .codespellignore {{ARGS}}
     @echo Spellings look good!

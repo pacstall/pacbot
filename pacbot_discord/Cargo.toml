@@ -1,0 +1,24 @@
+[package]
+name = "pacbot_discord"
+version = "0.1.0"
+edition = "2021"
+
+build = "src/build.rs"
+
+[dependencies]
+libpacbot.workspace = true
+reqwest.workspace = true
+poise.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+flume.workspace = true
+dotenvy = "0.15.7"
+sysinfo = "0.28.4"
+human_bytes = "0.4.1"
+compound_duration = "1.2.1"
+built = { version = "0.6.0", features = ["chrono"] }
+
+[build-dependencies]
+built = { version = "0.6.0", features = ["git2", "chrono"] }

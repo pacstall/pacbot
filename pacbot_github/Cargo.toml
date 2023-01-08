@@ -1,0 +1,17 @@
+[package]
+name = "pacbot_github"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+libpacbot.workspace = true
+reqwest.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+flume.workspace = true
+cynic = { version = "2.2.8", features = ["http-reqwest"] }
+
+[dev-dependencies]
+insta = "1.29.0"

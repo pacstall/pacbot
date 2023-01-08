@@ -1,14 +1,15 @@
 use std::time::Duration;
 
+use libpacbot::website::PackagesResponse;
+use libpacbot::PacResult;
 use poise::futures_util::StreamExt;
 use poise::serenity_prelude::*;
 
-use super::PackagesResponse;
-use crate::{Context, PoiseResult};
+use crate::Context;
 
 /// Get the package list
 #[poise::command(slash_command, prefix_command, category = "Repository")]
-pub async fn packagelist(ctx: Context<'_>) -> PoiseResult {
+pub async fn packagelist(ctx: Context<'_>) -> PacResult {
     let response: PackagesResponse = ctx
         .data()
         .client

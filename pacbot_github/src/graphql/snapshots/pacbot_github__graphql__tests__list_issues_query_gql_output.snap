@@ -1,0 +1,22 @@
+---
+source: pacbot_github/src/graphql/mod.rs
+expression: "ListIssuesQuery::build(ListIssuesQueryVariables {\n            states: Some(vec![IssueState :: Open]),\n        }).query"
+---
+query($states: [IssueState!]) {
+  repository(name: "pacstall-programs", owner: "pacstall") {
+    issues(last: 100, filterBy: {labels: ["major update", "minor update", "patch update", ], states: $states, }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        number
+        title
+        url
+        stateReason
+      }
+    }
+  }
+}
+
+

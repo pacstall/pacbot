@@ -1,17 +1,16 @@
 ci:
   # Skip hooks requiring `just` to be installed
   skip: [codespell, fmt, clippy]
-
 repos:
   # General
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-      - id: check-added-large-files
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: "snap"
       - id: mixed-line-ending
         args: ["--fix=lf"]
       - id: trailing-whitespace
@@ -24,6 +23,7 @@ repos:
         entry: just spellcheck
         types: [text]
         exclude_types: [image]
+        pass_filenames: false
       - id: fmt
         name: Format files
         description: Format files with cargo fmt
