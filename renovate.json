@@ -7,7 +7,15 @@
     {
       "matchUpdateTypes": ["patch"],
       "matchCurrentVersion": "!/^0/",
-      "automerge": true
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
     }
   ],
   "lockFileMaintenance": {
