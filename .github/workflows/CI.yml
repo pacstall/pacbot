@@ -1,10 +1,9 @@
 name: CI # Continuous Integration
-
 on:
+  merge_group:
   workflow_dispatch:
   push:
   pull_request:
-
 jobs:
   test:
     name: Test Suite
@@ -22,7 +21,6 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
-
   rustfmt:
     name: Rustfmt
     runs-on: ubuntu-latest
@@ -43,7 +41,6 @@ jobs:
           toolchain: nightly
           command: fmt
           args: --all -- --check
-
   spellcheck:
     name: Spellcheck
     runs-on: ubuntu-latest
@@ -55,7 +52,6 @@ jobs:
         with:
           builtin: clear,rare,informal,code
           ignore_words_file: .codespellignore
-
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
@@ -75,7 +71,6 @@ jobs:
         with:
           command: clippy
           args: --all-targets --all-features --workspace -- -D warnings -D clippy::pedantic
-
   docs:
     name: Docs
     runs-on: ubuntu-latest
