@@ -14,7 +14,7 @@ tokio = { version = "1.26.0", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.16"
 serde = "1.0.158"
-serde_json = "1.0.94"
+serde_json = "1.0.95"
 dotenvy = "0.15.7"
 sysinfo = "0.28.4"
 human_bytes = "0.4.1"
