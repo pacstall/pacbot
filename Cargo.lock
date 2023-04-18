@@ -194,9 +194,9 @@ dependencies = [
 
 [[package]]
 name = "compound_duration"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14c803d816c4ed6d0dadd5b54f7ef4f3761418fe802106b161d77476cc3c664c"
+checksum = "391da30e746a798f948778dff8d2e58a47b33bc6e2f37156ef8480d3b49a6565"
 
 [[package]]
 name = "const-oid"
