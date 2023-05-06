@@ -13,7 +13,7 @@ poise = "0.5.5"
 tokio = { version = "1.28.0", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.17"
-serde = "1.0.160"
+serde = "1.0.162"
 serde_json = "1.0.96"
 dotenvy = "0.15.7"
 sysinfo = "0.29.0"
