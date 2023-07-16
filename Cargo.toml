@@ -19,7 +19,7 @@ dotenvy = "0.15.7"
 sysinfo = "0.29.5"
 human_bytes = "0.4.2"
 compound_duration = "1.2.1"
-jwt-simple = "0.11.5"
+jwt-simple = "0.11.6"
 rand = "0.8.5"
 chrono = { version = "0.4.24", default-features = false, features = ["clock"] }
 built = { version = "0.6.0", features = ["chrono"] }
