@@ -120,7 +120,8 @@ pub async fn build(
     })
     .await?;
 
-    let run_date_filter = (chrono::Utc::now() - chrono::Duration::minutes(2)).to_rfc3339();
+    let run_date_filter =
+        (chrono::Utc::now() - chrono::Duration::try_minutes(2).unwrap()).to_rfc3339();
     let mut build_job_html_url = None;
 
     while build_job_html_url.is_none() {
