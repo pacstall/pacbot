@@ -2,6 +2,9 @@
 name = "pacbot"
 version = "0.1.0"
 edition = "2021"
+authores = ["Wizard28 <wiz28@pm.me>", "Elsie19 <hwengerstickel@protonmail.com>"]
+description = "Pacstall's Discord server and GitHub bot"
+license = "AGPL-3.0-or-later"
 
 build = "src/build.rs"
 
