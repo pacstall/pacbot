@@ -5,6 +5,7 @@ edition = "2021"
 authores = ["Wizard28 <wiz28@pm.me>", "Elsie19 <hwengerstickel@protonmail.com>"]
 description = "Pacstall's Discord server and GitHub bot"
 license = "AGPL-3.0-or-later"
+repository = "https://github.com/pacstall/pacbot"
 
 build = "src/build.rs"
 
